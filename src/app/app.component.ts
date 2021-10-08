@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Todo } from 'src/models/todo.model';
 
 @Component({
@@ -8,20 +9,52 @@ import { Todo } from 'src/models/todo.model';
 })
 export class AppComponent {
   public tittle: String = 'My chores';
+  public form: FormGroup;
   public toDos: Todo[] = [];
 
-  //Creates new Todo objects
-  constructor() {
-    this.toDos.push(new Todo(1, 'Learn basic programming', false));
-    this.toDos.push(new Todo(2, 'Learn how to git', false));
-    this.toDos.push(new Todo(3, 'Learn how to use javascript', false));
-    this.toDos.push(new Todo(4, 'Learn how to use typescript', false));
-    this.toDos.push(new Todo(5, 'Learn how to use angular', false));
+  //Creates new Todo objects based upon the FormBuilder -> See line 40
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      chore: ['',
+        Validators.compose([
+          Validators.minLength(5),
+          Validators.maxLength(100),
+          Validators.required,
+        ])]
+    });
+
+    if (localStorage.getItem('chores')) {
+      this.loadListItemsOnLocalStorage();
+    }
   }
 
   //Refreshes current page
   refreshPage() {
     location.reload();
+  }
+
+  //Add chore to the list
+  addListItem() {
+    const id = this.toDos.length + 1;
+    const chore = this.form.controls['chore'].value;
+    //Creates new Todo object
+    this.toDos.push(new Todo(id, chore, false));
+    this.saveListItemsOnLocalStorage();
+    this.clearFormAfterAdd();
+  }
+  //Saves the list items in the local storage
+  saveListItemsOnLocalStorage() {
+    const localSaveData = JSON.stringify(this.toDos);
+    localStorage.setItem('chores', localSaveData);
+  }
+  //Loads the list items in the local storage
+  loadListItemsOnLocalStorage() {
+    const localLoadData = localStorage.getItem('chores');
+    this.toDos = JSON.parse(localLoadData || "");
+  }
+  //Clear the form field after chore being added to the list
+  clearFormAfterAdd() {
+    this.form.reset();
   }
 
   //Remove chore from the list
@@ -37,14 +70,17 @@ export class AppComponent {
   //Close chore if user mark as done
   closeListItem(chore: Todo) {
     chore.isDone = true;
+    this.saveListItemsOnLocalStorage()
   }
   //Open chore if user mark as undone (undone is the default value)
   openListItem(chore: Todo) {
     chore.isDone = false;
+    this.saveListItemsOnLocalStorage()
   }
 
   //Remove all chores from the list
   deleteAllListItems() {
-    this.toDos = [];
+    localStorage.removeItem('chores');
+    this.refreshPage();
   }
 }
