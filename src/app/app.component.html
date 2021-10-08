@@ -6,16 +6,42 @@
   <button (click)="refreshPage()">Refresh Page</button>
 </div>
 
+<p *ngIf="toDos.length == 0">
+  You don't have any chores <i>yet</i>
+</p>
+
+<form [formGroup]="form">
+  <fieldset>
+    <label for="">Chore: </label>
+    <input type="text" placeholder="Type your chore" maxlength="100" formControlName="chore" name="" id="">
+    <small *ngIf="form.controls.chore.invalid && !form.controls.chore.pristine">
+      This chore should have more than 5 characteres
+    </small>
+    <button [disabled]="form.invalid" (click)="addListItem()">Add Chore</button>
+  </fieldset>
+</form>
+
 <ul class="container-chore-list">
   <li *ngFor="let toDoItems of toDos">
     {{ toDoItems.id }}. {{ toDoItems.chore }}
 
     <button (click)="removeListItem(toDoItems)">Delete</button>
-    
+
     <button *ngIf="!toDoItems.isDone" (click)="closeListItem(toDoItems)">Done</button>
     <button *ngIf="toDoItems.isDone" (click)="openListItem(toDoItems)">Undone</button>
   </li>
 </ul>
+
+<form *ngIf="toDos.length >= 10" [formGroup]="form">
+  <fieldset>
+    <label for="">Chore: </label>
+    <input type="text" placeholder="Type your chore" maxlength="100" formControlName="chore" name="" id="">
+    <small *ngIf="form.controls.chore.invalid && !form.controls.chore.pristine">
+      This chore should have more than 5 characteres
+    </small>
+    <button [disabled]="form.invalid" (click)="addListItem()">Add Chore</button>
+  </fieldset>
+</form>
 
 <div class="container-footer-button">
   <button (click)="deleteAllListItems()">Delete All Chores</button>
