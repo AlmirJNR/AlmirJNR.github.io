@@ -3,3 +3,12 @@
 * {
     font-family: 'Montserrat', sans-serif;
 }
+
+body {
+    /*Mozilla background webkit*/
+    background: -webkit-linear-gradient(90deg, #4f41d3 0%, #7c4185 100%);
+    /*Chrome background webkit*/
+    background: -moz-linear-gradient(90deg, #4f41d3 0%, #7c4185 100%);
+    /*General background webkit*/
+    background: linear-gradient(90deg, #4f41d3 0%, #7c4185 100%);
+}
