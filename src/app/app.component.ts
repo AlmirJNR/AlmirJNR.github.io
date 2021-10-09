@@ -8,9 +8,10 @@ import { Todo } from 'src/models/todo.model';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public tittle: String = 'My chores';
+  public title: String = 'My chores';
   public form: FormGroup;
   public toDos: Todo[] = [];
+  public dateToday: number = Date.now();
 
   //Creates new Todo objects based upon the FormBuilder -> See line 40
   constructor(private fb: FormBuilder) {
@@ -41,6 +42,11 @@ export class AppComponent {
     this.toDos.push(new Todo(id, chore, false));
     this.saveListItemsOnLocalStorage();
     this.clearFormAfterAdd();
+
+    //Scrolls to the bottom after something getting added
+    setTimeout(() => 
+    { window.scrollTo(0,9999) },
+    0 );
   }
   //Saves the list items in the local storage
   saveListItemsOnLocalStorage() {
@@ -64,6 +70,8 @@ export class AppComponent {
     //Security Conditional
     if (index !== -1) {
       this.toDos.splice(index, 1);
+      const localSaveData = JSON.stringify(this.toDos);
+      localStorage.setItem('chores', localSaveData);
     }
   }
 
