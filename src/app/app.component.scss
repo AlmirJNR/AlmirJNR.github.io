@@ -201,12 +201,9 @@ div {
 
       font-weight: 600;
 
-      @media only screen and (max-width: 280px) {
+      @media only screen and (max-width: 590px) {
         font-size: 1.5em;
         padding: 0.25rem 0rem 0.25rem 1rem;
-      }
-      @media only screen and (min-width: 590px) {
-        font-size: 1.5em;
       }
     }
     li:hover {
