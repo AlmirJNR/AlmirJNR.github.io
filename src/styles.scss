@@ -12,3 +12,6 @@ body {
     /*General background webkit*/
     background: linear-gradient(90deg, #4f41d3 0%, #7c4185 100%);
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
