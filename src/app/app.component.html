@@ -1,56 +1,70 @@
-<h1 class="container-header">
-  <span>{{ title }}</span>
-</h1>
+<div>
 
-<div class="container-header-date">
-  <h1>{{ dateToday | date }}</h1>
-</div>
+  <h1 class="container-header">
+    <span>{{ title }}</span>
+  </h1>
 
-<p *ngIf="toDos.length == 0">
-  You don't have any chores <i>yet</i>
-</p>
+  <div class="container-header-date">
+    <h1>{{ dateToday | date }}</h1>
+  </div>
 
-<form class="container-header-form" [formGroup]="form">
-  <fieldset>
-    <label for="">Chore: </label>
-    <input
-    type="text"
-    placeholder="Type your chore"
-    maxlength="100"
-    formControlName="chore"
-    name=""
-    id="">
-    <small *ngIf="form.controls.chore.invalid && !form.controls.chore.pristine">
-      This chore should have more than 5 characteres
-    </small>
-    <button [disabled]="form.invalid" (click)="addListItem()">Add Chore</button>
-  </fieldset>
-</form>
+  <p *ngIf="toDos.length == 0">
+    You don't have any chores <i>yet</i>
+  </p>
 
-<ul class="container-chore-list">
-  <li *ngFor="let toDoItems of toDos">
-    <span>{{ toDoItems.id }}. {{ toDoItems.chore }}</span>
+  <form class="container-header-form" [formGroup]="form">
+    <fieldset>
+      <div class="container-input">
+        <!-- <label for="">Chore: </label> -->
+        <input type="text" placeholder="Type your chore" maxlength="100" formControlName="chore" name="" id="">
+        <small *ngIf="form.controls.chore.invalid && !form.controls.chore.pristine">
+          This chore should have more than 5 characteres
+        </small>
+      </div>
+      <button [disabled]="form.invalid" (click)="addListItem()">Add Chore</button>
+    </fieldset>
+  </form>
 
-    <span class="buttons">
-      <button class="delete" (click)="removeListItem(toDoItems)">Delete</button>
+  <ul class="container-chore-list">
+    <li *ngFor="let toDoItems of toDos">
+      <span>{{ toDoItems.id }}. {{ toDoItems.chore }}</span>
 
-      <button class="isUndone" *ngIf="!toDoItems.isDone" (click)="closeListItem(toDoItems)">Undone</button>
-      <button class="isDone" *ngIf="toDoItems.isDone" (click)="openListItem(toDoItems)">Done</button>
-    </span>
-  </li>
-</ul>
+      <span class="buttons">
+        <button class="delete" (click)="removeListItem(toDoItems)">
+          <mat-icon aria-hidden="true" aria-label="Delete Icon">
+            delete_forever
+          </mat-icon>
+        </button>
 
-<form class="container-header-form" *ngIf="toDos.length >= 6" [formGroup]="form">
-  <fieldset>
-    <label for="">Chore: </label>
-    <input type="text" placeholder="Type your chore" maxlength="100" formControlName="chore" name="" id="">
-    <small *ngIf="form.controls.chore.invalid && !form.controls.chore.pristine">
-      This chore should have more than 5 characteres
-    </small>
-    <button [disabled]="form.invalid" (click)="addListItem()">Add Chore</button>
-  </fieldset>
-</form>
+        <button class="isUndone" *ngIf="!toDoItems.isDone" (click)="closeListItem(toDoItems)">
+          <mat-icon aria-hidden="true" aria-label="Is undone Icon">
+            check_box_outline_blank
+          </mat-icon>
+        </button>
+        <button class="isDone" *ngIf="toDoItems.isDone" (click)="openListItem(toDoItems)">
+          <mat-icon aria-hidden="true" aria-label="Is done Icon">
+            check_box
+          </mat-icon>
+        </button>
+      </span>
+    </li>
+  </ul>
 
-<div class="container-footer-button" *ngIf="toDos.length !== 0">
-  <button (click)="deleteAllListItems()">Delete All Chores</button>
+  <form class="container-header-form" *ngIf="toDos.length >= 6" [formGroup]="form">
+    <fieldset>
+      <div class="container-input">
+        <!-- <label for="">Chore: </label> -->
+        <input type="text" placeholder="Type your chore" maxlength="100" formControlName="chore" name="" id="">
+        <small *ngIf="form.controls.chore.invalid && !form.controls.chore.pristine">
+          This chore should have more than 5 characteres
+        </small>
+      </div>
+      <button [disabled]="form.invalid" (click)="addListItem()">Add Chore</button>
+    </fieldset>
+  </form>
+
+  <div class="container-footer-button" *ngIf="toDos.length !== 0">
+    <button (click)="deleteAllListItems()">Delete All Chores</button>
+  </div>
+
 </div>
